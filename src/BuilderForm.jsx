@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import './custom.css';  
+import { Container, Form, Button, Card } from 'react-bootstrap';
+import './custom.css';
 
-
-export default function BuilderForm({ setScript }) {
-  const [selectedIdea, setSelectedIdea] = useState("lava");
+const BuilderForm = () => {
+  const [template, setTemplate] = useState('Classic Obby');
+  const [idea, setIdea] = useState('lava');
+  const [script, setScript] = useState('');
 
   const handleGenerate = async () => {
     const response = await fetch("https://roblox-backend-km.azurewebsites.net/generate", {
@@ -11,10 +13,7 @@ export default function BuilderForm({ setScript }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        template: "Classic Obby",
-        idea: selectedIdea,
-      }),
+      body: JSON.stringify({ template, idea }),
     });
 
     const data = await response.json();
@@ -22,18 +21,43 @@ export default function BuilderForm({ setScript }) {
   };
 
   return (
-    <div>
-      <label htmlFor="idea">Choose a block type:</label>
-      <select
-        id="idea"
-        value={selectedIdea}
-        onChange={(e) => setSelectedIdea(e.target.value)}
-      >
-        <option value="lava">Lava</option>
-        <option value="ice">Ice</option>
-        <option value="spike">Spike</option>
-      </select>
-      <button onClick={handleGenerate}>Generate Lua Script</button>
-    </div>
+    <Container className="p-4 custom-container">
+      <h2 className="text-center mb-4">🎮 Roblox Game Part Builder</h2>
+
+      <Card className="p-3 custom-card">
+        <Form>
+          <Form.Group className="mb-3">
+            <Form.Label>Choose a Game Template</Form.Label>
+            <Form.Select value={template} onChange={(e) => setTemplate(e.target.value)}>
+              <option>Classic Obby</option>
+              <option>Racing</option>
+              <option>Platformer</option>
+              <option>Laser Tag</option>
+            </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Choose a Block Type</Form.Label>
+            <Form.Select value={idea} onChange={(e) => setIdea(e.target.value)}>
+              <option value="lava">Lava Cave</option>
+              <option value="ice">Ice Platform</option>
+              <option value="spike">Spike Trap</option>
+            </Form.Select>
+          </Form.Group>
+
+          <Button className="w-100 custom-btn" onClick={handleGenerate}>
+            Generate Lua Script
+          </Button>
+        </Form>
+      </Card>
+
+      {script && (
+        <Card className="mt-4 p-3 custom-output">
+          <pre>{script}</pre>
+        </Card>
+      )}
+    </Container>
   );
-}
+};
+
+export default BuilderForm;
