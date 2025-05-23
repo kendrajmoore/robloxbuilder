@@ -1,0 +1,27 @@
+.custom-container {
+    background: #1e1f26;
+    color: #ffffff;
+    min-height: 100vh;
+  }
+  
+  .custom-card {
+    background-color: #2c2e34;
+    border: none;
+    color: #d1d1d1;
+  }
+  
+  .custom-btn {
+    background-color: #5a4fcf;
+    border: none;
+  }
+  
+  .custom-btn:hover {
+    background-color: #483bbb;
+  }
+  
+  .custom-output {
+    background-color: #111218;
+    color: #90e0ef;
+    font-family: monospace;
+    font-size: 0.95rem;
+  }
